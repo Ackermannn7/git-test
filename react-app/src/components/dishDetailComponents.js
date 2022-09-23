@@ -34,7 +34,8 @@ class DishDetail extends Component{
         const comms = comments.map(comment=>{
             return(
                 <li key={comment.id}>
-                    <p>{comment.comment}</p>,
+                    <p>{comment.comment}</p>
+                    <br/>
                     <p>-- {comment.author},
                         &nbsp;
                         {new Intl.DateTimeFormat('en-US', {
