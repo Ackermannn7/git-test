@@ -22,12 +22,12 @@ class DishDetail extends Component {
           </Card>
         </div>
       );
-    else return <div></div>;
+    else return (<div></div>);
   }
 
   renderComments(comments) {
     if (comments == null) {
-      return <div></div>;
+      return (<div></div>);
     }
     const comms = comments.map((comment) => {
       return (
@@ -55,10 +55,8 @@ class DishDetail extends Component {
 
   render() {
     const dish = this.props.dish;
-    console.log(dish);
-
     if (dish == null) {
-      return <div></div>;
+      return (<div></div>);
     }
 
     const dishItem = this.renderDish(dish);
