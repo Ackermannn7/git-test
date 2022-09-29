@@ -35,9 +35,10 @@ address{
 }
 
 
+
 /* Jumbotron */
 
-.container-fluid .jumbotron,
+/* .container-fluid .jumbotron,
 .container .jumbotron {
   border-radius: 6px;
   padding-left: 15px;
@@ -57,7 +58,7 @@ address{
     padding-bottom: 48px;
     padding-top: 48px;
   }
-}
+} */
 
 /* .jumbotron {
   background-color: #eee;

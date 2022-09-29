@@ -1,0 +1,9 @@
+.navbar-logo{
+    margin-left: 15px;
+}
+
+.navbar-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
