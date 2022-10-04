@@ -2,7 +2,7 @@ export const PROMOTIONS = [
   {
     id: 0,
     name: "Weekend Grand Buffet",
-    image: "",
+    image: "/assets/buffet.png",
     label: "New",
     price: "19.99",
     featured: true,
