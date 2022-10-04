@@ -1,0 +1,8 @@
+
+.leader-logo{
+    margin-right: 50px;
+}
+.container-leader{
+    display: flex;
+    flex-direction: row;
+}
