@@ -6,6 +6,14 @@ import {
   NavbarToggler,
   Collapse,
   NavItem,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  FormGroup,
+  Input,
+  Form,
+  Label,
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import "../App.css";
@@ -16,8 +24,11 @@ class Header extends Component {
     super(props);
     this.state = {
       isNavOpen: false,
+      isModalOpen: false,
     };
     this.toggleNav = this.toggleNav.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   toggleNav() {
@@ -25,14 +36,33 @@ class Header extends Component {
       isNavOpen: !this.state.isNavOpen,
     });
   }
+
+  toggleModal() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen,
+    });
+  }
+  handleLogin(event) {
+    this.toggleModal();
+    alert(
+      "Username: " +
+        this.username.value +
+        " Password: " +
+        this.password.value +
+        " Remember: " +
+        this.remember.checked
+    );
+    event.preventDefault();
+  }
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Navbar dark expand="md">
           <div className="container navbar-container">
             <NavbarToggler onClick={this.toggleNav} />
             <NavbarBrand className="mr-auto" href="/">
-              <img className="navbar-logo"
+              <img
+                className="navbar-logo"
                 src="assets/images/logo.png"
                 height="30"
                 width="41"
@@ -67,6 +97,13 @@ class Header extends Component {
                   </NavLink>
                 </NavItem>
               </Nav>
+              <Nav className="ms-auto" navbar>
+                <NavItem>
+                  <Button outline onClick={this.toggleModal}>
+                    <span className="fa fa-sign-in fa-lg"> Login</span>
+                  </Button>
+                </NavItem>
+              </Nav>
             </Collapse>
           </div>
         </Navbar>
@@ -84,7 +121,45 @@ class Header extends Component {
             </div>
           </div>
         </div>
-      </div>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
+          <ModalBody>
+            <Form onSubmit={this.handleLogin}>
+              <FormGroup>
+                <Label htmlFor="userName">User Name</Label>
+                <Input
+                  type="text"
+                  id="userName"
+                  name="userName"
+                  innerRef={(input) => (this.username = input)}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  type="password"
+                  id="password"
+                  name="password"
+                  innerRef={(input) => (this.password = input)}
+                />
+              </FormGroup>
+              <FormGroup check>
+                <Label check>
+                  <Input
+                    type="checkbox"
+                    name="remember"
+                    innerRef={(input) => (this.remember = input)}
+                  />
+                  Remember Me
+                </Label>
+              </FormGroup>
+              <Button type="submit" value="submit" color="primary">
+                Log in
+              </Button>
+            </Form>
+          </ModalBody>
+        </Modal>
+      </React.Fragment>
     );
   }
 }
