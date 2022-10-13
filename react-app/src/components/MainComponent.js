@@ -6,22 +6,21 @@ import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
 import Footer from "./FooterComponent";
 import About from "./AboutComponent";
-import { DISHES } from "../shared/dishes";
-import { COMMENTS } from "../shared/comments";
-import { LEADERS } from "../shared/leaders";
-import { PROMOTIONS } from "../shared/promotions";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { connect } from "react-redux";
 
+const mapStateToProps = (state) => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders,
+  };
+};
 
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dishes: DISHES,
-      comments: COMMENTS,
-      leaders: LEADERS,
-      promotions: PROMOTIONS,
-    };
   }
 
   render() {
@@ -33,24 +32,27 @@ class Main extends Component {
             path="/home"
             element={
               <Home
-                dish={this.state.dishes.filter((dish) => dish.featured)[0]}
+                dish={this.props.dishes.filter((dish) => dish.featured)[0]}
                 promotion={
-                  this.state.promotions.filter((promo) => promo.featured)[0]
+                  this.props.promotions.filter((promo) => promo.featured)[0]
                 }
                 leader={
-                  this.state.leaders.filter((leader) => leader.featured)[0]
+                  this.props.leaders.filter((leader) => leader.featured)[0]
                 }
               />
             }
           />
-          <Route path="/aboutus" element={<About leaders={this.state.leaders}/>} />
-          <Route path="/menu" element={<Menu dishes={this.state.dishes} />} />
+          <Route
+            path="/aboutus"
+            element={<About leaders={this.props.leaders} />}
+          />
+          <Route path="/menu" element={<Menu dishes={this.props.dishes} />} />
           <Route
             path="/menu/:dishId"
             element={
               <DishDetail
-                dishes={this.state.dishes}
-                comments={this.state.comments}
+                dishes={this.props.dishes}
+                comments={this.props.comments}
               />
             }
           ></Route>
@@ -63,4 +65,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default connect(mapStateToProps)(Main);
