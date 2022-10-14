@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   Card,
   CardImg,
@@ -7,8 +7,158 @@ import {
   CardTitle,
   Breadcrumb,
   BreadcrumbItem,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Label,
+  Col,
+  Row,
 } from "reactstrap";
 import { Link, useParams } from "react-router-dom";
+import { Control, LocalForm, Errors } from "react-redux-form";
+import { CounterInput } from "react-counter-input";
+
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
+
+class CommentForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isModalOpen: false,
+    };
+
+    this.toggleCommentModal = this.toggleCommentModal.bind(this);
+    this.handleCommentSubmuit = this.handleCommentSubmuit.bind(this);
+  }
+
+  toggleCommentModal() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen,
+    });
+  }
+
+  handleCommentSubmuit(values) {
+    console.log("Current State is: " + JSON.stringify(values));
+    alert("Current State is: " + JSON.stringify(values));
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <Button outline onClick={this.toggleCommentModal}>
+          <span className="fa fa-comments fa-lg"> Submit Comment</span>
+        </Button>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleCommentModal}>
+          <ModalHeader toggle={this.toggleCommentModal}>
+            Submit Comment
+          </ModalHeader>
+          <ModalBody>
+            <LocalForm onSubmit={(values) => this.handleCommentSubmuit(values)}>
+              {/* rating */}
+              <Row className="form-group">
+                <Label htmlFor="rating" md={12}>
+                  Rating
+                </Label>
+                <Col md={12}>
+                  <Control.select
+                    model=".rating"
+                    className="form-control"
+                    name="rating"
+                    id="rating"
+                    validators={{
+                      required,
+                    }}
+                  >
+                    <CounterInput min={1} max={5} />
+                  </Control.select>
+                  <Errors
+                    className="text-danger"
+                    model=".author"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                    }}
+                  ></Errors>
+                </Col>
+              </Row>
+
+              {/* author  */}
+              <Row className="form-group">
+                <Label htmlFor="author" md={12}>
+                  Your Name
+                </Label>
+                <Col md={12}>
+                  <Control.text
+                    model=".author"
+                    id="author"
+                    name="author"
+                    placeholder="Author"
+                    className="form-control"
+                    validators={{
+                      required,
+                      minLength: minLength(3),
+                      maxLength: maxLength(15),
+                    }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".author"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                      minLength: "Must be greater than 2 characters",
+                      maxLength: "Must be less than 16 characters",
+                    }}
+                  />
+                </Col>
+              </Row>
+
+              {/* comment */}
+              <Row className="form-group">
+                <Label htmlFor="comment" md={12}>
+                  Your Feedback
+                </Label>
+                <Col md={12}>
+                  <Control.textarea
+                    model=".comment"
+                    id="comment"
+                    name="comment"
+                    rows="6"
+                    className="form-control"
+                    validators={{
+                      required,
+                    }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".author"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                    }}
+                  />
+                </Col>
+              </Row>
+
+              {/* submit button */}
+              <Row className="form-group">
+                <Col>
+                  <Button type="submit" color="primary">
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
+            </LocalForm>
+          </ModalBody>
+        </Modal>
+      </React.Fragment>
+    );
+  }
+}
 
 function RenderDish({ dish }) {
   if (dish != null)
@@ -26,7 +176,7 @@ function RenderDish({ dish }) {
   else return <div></div>;
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ dish, comments }) {
   if (comments == null) {
     return <div></div>;
   }
@@ -50,6 +200,7 @@ function RenderComments({ comments }) {
     <div className="col-12 col-md-5 m-1">
       <h4>Comments</h4>
       <ul className="list-unstyled">{comms}</ul>
+      <CommentForm dish={dish} comment={comments} />
     </div>
   );
 }
