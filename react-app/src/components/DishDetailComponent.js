@@ -17,7 +17,6 @@ import {
 } from "reactstrap";
 import { Link, useParams } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
-import { CounterInput } from "react-counter-input";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -73,7 +72,11 @@ class CommentForm extends Component {
                       required,
                     }}
                   >
-                    <CounterInput min={1} max={5} />
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
                   </Control.select>
                   <Errors
                     className="text-danger"
