@@ -21,7 +21,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   addComment: (dishId, rating, author, comment) => {
-    console.log(dishId, rating, author, comment);
     dispatch(addComment(dishId, rating, author, comment));
   },
 });
@@ -32,7 +31,6 @@ class Main extends Component {
   }
 
   render() {
-    console.log(this.props.addComment);
     return (
       <div>
         <Header />
