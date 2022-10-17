@@ -8,6 +8,7 @@ import Footer from "./FooterComponent";
 import About from "./AboutComponent";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
+import { addComment } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => {
   return {
@@ -18,12 +19,20 @@ const mapStateToProps = (state) => {
   };
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  addComment: (dishId, rating, author, comment) => {
+    console.log(dishId, rating, author, comment);
+    dispatch(addComment(dishId, rating, author, comment));
+  },
+});
+
 class Main extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
+    console.log(this.props.addComment);
     return (
       <div>
         <Header />
@@ -53,6 +62,7 @@ class Main extends Component {
               <DishDetail
                 dishes={this.props.dishes}
                 comments={this.props.comments}
+                addComment={this.props.addComment}
               />
             }
           ></Route>
@@ -64,5 +74,4 @@ class Main extends Component {
     );
   }
 }
-
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

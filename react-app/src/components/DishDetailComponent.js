@@ -41,6 +41,13 @@ class CommentForm extends Component {
   }
 
   handleCommentSubmuit(values) {
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
+
     console.log("Current State is: " + JSON.stringify(values));
     alert("Current State is: " + JSON.stringify(values));
   }
@@ -179,7 +186,7 @@ function RenderDish({ dish }) {
   else return <div></div>;
 }
 
-function RenderComments({ dish, comments }) {
+function RenderComments({ comments, addComment, dishId }) {
   if (comments == null) {
     return <div></div>;
   }
@@ -203,12 +210,12 @@ function RenderComments({ dish, comments }) {
     <div className="col-12 col-md-5 m-1">
       <h4>Comments</h4>
       <ul className="list-unstyled">{comms}</ul>
-      <CommentForm dish={dish} comment={comments} />
+      <CommentForm dishId={dishId} addComment={addComment} />
     </div>
   );
 }
 
-const DishDetail = ({ dishes, comments }) => {
+const DishDetail = ({ dishes, comments, addComment, dispatch }) => {
   let params = useParams();
   const currentDish = dishes.filter(
     (dish) => dish.id === parseInt(params.dishId, 10)
@@ -239,7 +246,11 @@ const DishDetail = ({ dishes, comments }) => {
         </div>
         <div className="row">
           <RenderDish dish={currentDish} />
-          <RenderComments comments={currentComments} />
+          <RenderComments
+            comments={currentComments}
+            addComment={addComment}
+            dishId={currentDish.id}
+          />
         </div>
       </div>
     );
