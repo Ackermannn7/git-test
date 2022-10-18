@@ -47,9 +47,6 @@ class CommentForm extends Component {
       values.author,
       values.comment
     );
-
-    console.log("Current State is: " + JSON.stringify(values));
-    alert("Current State is: " + JSON.stringify(values));
   }
 
   render() {
@@ -215,7 +212,7 @@ function RenderComments({ comments, addComment, dishId }) {
   );
 }
 
-const DishDetail = ({ dishes, comments, addComment, dispatch }) => {
+const DishDetail = ({ dishes, comments, addComment }) => {
   let params = useParams();
   const currentDish = dishes.filter(
     (dish) => dish.id === parseInt(params.dishId, 10)
