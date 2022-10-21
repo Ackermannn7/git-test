@@ -43,7 +43,7 @@ class CommentForm extends Component {
   }
 
   handleCommentSubmuit(values) {
-    this.props.addComment(
+    this.props.postComment(
       this.props.dishId,
       values.rating,
       values.author,
@@ -185,14 +185,14 @@ function RenderDish({ dish }) {
   else return <div></div>;
 }
 
-function RenderComments({ comments, addComment, dishId }) {
+function RenderComments({ comments, postComment, dishId }) {
   if (comments == null) {
     return <div></div>;
   }
   const comms = comments.map((comment) => {
     return (
       <li key={comment.id}>
-        <p>{comment.comment}</p>,
+        <p>{comment.comment}</p>
         <p>
           -- {comment.author}, &nbsp;
           {new Intl.DateTimeFormat("en-US", {
@@ -209,12 +209,12 @@ function RenderComments({ comments, addComment, dishId }) {
     <div className="col-12 col-md-5 m-1">
       <h4>Comments</h4>
       <ul className="list-unstyled">{comms}</ul>
-      <CommentForm dishId={dishId} addComment={addComment} />
+      <CommentForm dishId={dishId} postComment={postComment} />
     </div>
   );
 }
 
-const DishDetail = ({ dishes, comments, addComment, isLoading, errMess }) => {
+const DishDetail = ({ dishes, comments, postComment, isLoading, errMess }) => {
   let params = useParams();
   const currentDish = dishes.filter(
     (dish) => dish.id === parseInt(params.dishId, 10)
@@ -265,7 +265,7 @@ const DishDetail = ({ dishes, comments, addComment, isLoading, errMess }) => {
           <RenderDish dish={currentDish} />
           <RenderComments
             comments={currentComments}
-            addComment={addComment}
+            postComment={postComment}
             dishId={currentDish.id}
           />
         </div>
