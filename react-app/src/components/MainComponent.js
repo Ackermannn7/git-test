@@ -10,12 +10,15 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   postComment,
+  postFeedback,
   fetchDishes,
   fetchComments,
   fetchPromos,
+  fetchLeaders,
 } from "../redux/ActionCreators";
 import { actions } from "react-redux-form";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+
 const mapStateToProps = (state) => {
   return {
     dishes: state.dishes,
@@ -24,9 +27,31 @@ const mapStateToProps = (state) => {
     leaders: state.leaders,
   };
 };
+
 const mapDispatchToProps = (dispatch) => ({
   postComment: (dishId, rating, author, comment) => {
     dispatch(postComment(dishId, rating, author, comment));
+  },
+  postFeedback: (
+    firstName,
+    lastName,
+    telNum,
+    email,
+    agree,
+    contactType,
+    message
+  ) => {
+    dispatch(
+      postFeedback(
+        firstName,
+        lastName,
+        telNum,
+        email,
+        agree,
+        contactType,
+        message
+      )
+    );
   },
   fetchDishes: () => {
     dispatch(fetchDishes());
@@ -40,6 +65,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchPromos: () => {
     dispatch(fetchPromos());
   },
+  fetchLeaders: () => {
+    dispatch(fetchLeaders());
+  },
 });
 
 class Main extends Component {
@@ -50,11 +78,7 @@ class Main extends Component {
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
-  }
-
-  getPathDepth(location) {
-    let pathArr = location.pathname.split("/");
-    pathArr = pathArr.filter;
+    this.props.fetchLeaders();
   }
 
   render() {
@@ -73,9 +97,7 @@ function RoutePage(props) {
               path="/home"
               element={
                 <Home
-                  dish={
-                    props.dishes.dishes.filter((dish) => dish.featured)[0]
-                  }
+                  dish={props.dishes.dishes.filter((dish) => dish.featured)[0]}
                   dishesLoading={props.dishes.isLoading}
                   dishesErrMess={props.dishes.errMess}
                   promotion={
@@ -86,14 +108,22 @@ function RoutePage(props) {
                   promosLoading={props.promotions.isLoading}
                   promosErrMess={props.promotions.errMess}
                   leader={
-                    props.leaders.filter((leader) => leader.featured)[0]
+                    props.leaders.leaders.filter((leader) => leader.featured)[0]
                   }
+                  leadersLoading={props.leaders.isLoading}
+                  leadersErrMess={props.leaders.errMess}
                 />
               }
             />
             <Route
               path="/aboutus"
-              element={<About leaders={props.leaders} />}
+              element={
+                <About
+                  leaders={props.leaders}
+                  leadersLoading={props.leaders.isLoading}
+                  leadersErrMess={props.leaders.errMess}
+                />
+              }
             />
             <Route path="/menu" element={<Menu dishes={props.dishes} />} />
             <Route
@@ -111,9 +141,7 @@ function RoutePage(props) {
             ></Route>
             <Route
               path="/contactus"
-              element={
-                <Contact resetFeedbackForm={props.resetFeedbackForm} />
-              }
+              element={<Contact resetFeedbackForm={props.resetFeedbackForm} />}
             />
             <Route path="*" element={<Navigate to="/home" />} />
           </Routes>

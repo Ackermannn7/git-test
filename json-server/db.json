@@ -262,9 +262,9 @@
   ],
   "feedback": [
     {
-      "firstname": "fdas",
-      "lastname": "afds",
-      "telnum": "134113",
+      "firstName": "fdas",
+      "lastName": "afds",
+      "telNum": "134113",
       "email": "dafdads@daffas.dfdafd",
       "agree": true,
       "contactType": "Email",
