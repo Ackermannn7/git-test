@@ -90,8 +90,8 @@ export const postFeedback =
       .then((response) => response.json())
       .then((response) => alert(JSON.stringify(response)))
       .catch((error) => {
-        console.log("Post Comments", error.message);
-        alert("Comment could not be posted\nError" + error.message);
+        console.log("Post Feedback", error.message);
+        alert("Feedback could not be posted\nError" + error.message);
       });
   };
 

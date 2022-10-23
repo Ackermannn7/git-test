@@ -18,7 +18,7 @@ export const Leaders = (
       };
 
     case ActionTypes.LEADERS_LOADING:
-      return { ...state, isLoading: true, leaders: [] };
+      return { ...state, isLoading: true, errMess: null, leaders: [] };
     case ActionTypes.LEADERS_FAILED:
       return {
         ...state,

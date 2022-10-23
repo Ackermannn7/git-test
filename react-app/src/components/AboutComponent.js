@@ -30,7 +30,6 @@ function RenderLeader({ leader }) {
 }
 
 function RenderContent({ leaders, isLoading, errMess }) {
-  console.log(leaders);
   if (isLoading) {
     return <Loading />;
   } else if (errMess) {
